@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <title>Padaria</title>
+    <meta charset="utf-8"/>
+    <link rel="stylesheet" type="text/css" href="estilo.css">
+</head>
+<body>
+<form action="/crud/cadastrar" class="formulario" method="POST">
+    <p> Envie uma mensagem preenchendo o formulário abaixo</p>
+
+    <div class="field">
+        <label for="nome">NomeProduto:</label>
+        <input type="text" id="nome" name="nome" placeholder="Digite seu nome" required>
+    </div>
+
+    <div class="field">
+        <label for="telefone">Preço:</label>
+        <input type="text" id="telefone" name="preco" placeholder="Digite seu Telefone">
+    </div>
+
+    <div class="field">
+        <label for="email">Descrição:</label>
+        <input type="text" id="email" name="descricao" placeholder="Digite seu E-Mail" required>
+    </div>
+
+    <div class="field">
+        <label for="email">data:</label>
+        <input type="date" id="data" name="data"  required>
+    </div>
+
+    <input type="submit" name="acao" value="Enviar">
+</form>
+</body>
+</html>

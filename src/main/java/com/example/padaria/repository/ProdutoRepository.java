@@ -2,12 +2,13 @@ package com.example.padaria.repository;
 
 import com.example.padaria.model.Produto;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+
 
 public class ProdutoRepository {
 
@@ -37,7 +38,7 @@ public class ProdutoRepository {
             PreparedStatement stmt = connection.prepareStatement(sql);
             stmt.setString(1, produto.getNome());
             stmt.setBigDecimal(2, produto.getPreco());
-            stmt.setString(3, produto.getData().toString());
+            stmt.setDate(3, new java.sql.Date(produto.getData().getTime()));
             stmt.setString(4, produto.getDescricao());
             stmt.executeUpdate();
             stmt.close();
@@ -53,7 +54,7 @@ public class ProdutoRepository {
             PreparedStatement stmt = connection.prepareStatement(sql);
             stmt.setString(1, produto.getNome());
             stmt.setBigDecimal(2, produto.getPreco());
-            stmt.setString(3, produto.getData().toString());
+            stmt.setDate(3, new java.sql.Date(produto.getData().getTime()));
             stmt.setString(4, produto.getDescricao());
             stmt.setLong(5, id);
             stmt.executeUpdate();

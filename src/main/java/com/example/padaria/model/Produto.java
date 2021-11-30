@@ -1,6 +1,8 @@
 package com.example.padaria.model;
 
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.Date;
@@ -9,6 +11,7 @@ public class Produto {
 
     private String nome;
     private BigDecimal preco;
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date data;
     private String descricao;
 
