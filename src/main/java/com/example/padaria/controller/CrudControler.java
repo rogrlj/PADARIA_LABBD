@@ -2,14 +2,12 @@ package com.example.padaria.controller;
 
 import com.example.padaria.model.Produto;
 import com.example.padaria.repository.ProdutoRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PatchMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
 
 import java.sql.SQLException;
+import java.util.List;
 
 @Controller
 @RequestMapping("/crud")
@@ -26,8 +24,29 @@ public class CrudControler {
     }
 
     @GetMapping
-    public String home(Produto produto) {
-        System.out.println(produto);
+    public String listarProdutos(Model model) {
+        List<Produto> produtos = produtoRepository.listarProdutos();
+        model.addAttribute("produtos", produtos);
+
+        return "crud";
+    }
+
+    @GetMapping("/{id}")
+    public String buscarProduto(@PathVariable("id") Long id, Model model){
+        Produto produto = produtoRepository.buscarProduto(id);
+        model.addAttribute("produto", produto);
+        return "crud";
+    }
+
+    @DeleteMapping("/{id}")
+    public String deletarProduto(@PathVariable("id") Long id){
+        produtoRepository.remover(id);
+        return "crud";
+    }
+
+    @PutMapping("/alterar/{id}")
+    public String alterarProduto(@PathVariable("id") Long id, Produto produto){
+        produtoRepository.atualizar(produto, id);
         return "crud";
     }
 

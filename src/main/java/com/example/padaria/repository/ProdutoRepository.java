@@ -19,11 +19,11 @@ public class ProdutoRepository {
         connection = dao.getConnection();
     }
 
-    public void remover(int id) {
+    public void remover(Long id) {
         try {
             String sql = "DELETE FROM produtos WHERE id = ?";
             PreparedStatement stmt = connection.prepareStatement(sql);
-            stmt.setInt(1, id);
+            stmt.setLong(1, id);
             stmt.executeUpdate();
             stmt.close();
         } catch (SQLException e1) {
