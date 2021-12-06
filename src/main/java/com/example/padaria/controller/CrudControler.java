@@ -2,6 +2,7 @@ package com.example.padaria.controller;
 
 import com.example.padaria.model.Produto;
 import com.example.padaria.repository.ProdutoRepository;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -31,6 +32,12 @@ public class CrudControler {
         return "crud";
     }
 
+    @GetMapping("/teste")
+    public ResponseEntity<Object> teste(){
+        Object object = "teste";
+        return ResponseEntity.ok(object);
+    }
+
     @GetMapping("/{id}")
     public String buscarProduto(@PathVariable("id") Long id, Model model){
         Produto produto = produtoRepository.buscarProduto(id);
@@ -55,8 +62,6 @@ public class CrudControler {
 
         produtoRepository.adicionar(produto);
 
-        System.out.println(produto.getNome());
-        System.out.println(produto);
         return "crud";
     }
 }
