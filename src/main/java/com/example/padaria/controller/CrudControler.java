@@ -6,7 +6,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.util.UriComponentsBuilder;
 
+import java.net.URI;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -24,44 +26,36 @@ public class CrudControler {
         }
     }
 
-    @GetMapping
-    public String listarProdutos(Model model) {
+    @GetMapping("/produtos")
+    public ResponseEntity<List<Produto>> listarProdutos() {
         List<Produto> produtos = produtoRepository.listarProdutos();
-        model.addAttribute("produtos", produtos);
 
-        return "crud";
+        return ResponseEntity.ok(produtos);
     }
 
-    @GetMapping("/teste")
-    public ResponseEntity<Object> teste(){
-        Object object = "teste";
-        return ResponseEntity.ok(object);
-    }
-
-    @GetMapping("/{id}")
-    public String buscarProduto(@PathVariable("id") Long id, Model model){
+    @GetMapping("/produto/{id}")
+    public ResponseEntity<Produto> buscarProduto(@PathVariable("id") Long id){
         Produto produto = produtoRepository.buscarProduto(id);
-        model.addAttribute("produto", produto);
-        return "crud";
+        return ResponseEntity.ok(produto);
     }
 
-    @DeleteMapping("/{id}")
-    public String deletarProduto(@PathVariable("id") Long id){
+    @DeleteMapping("/produto/{id}")
+    public ResponseEntity<Produto> deletarProduto(@PathVariable("id") Long id){
         produtoRepository.remover(id);
-        return "crud";
+        return ResponseEntity.ok().build();
     }
 
-    @PutMapping("/alterar/{id}")
-    public String alterarProduto(@PathVariable("id") Long id, Produto produto){
+    @PutMapping("/produto/{id}")
+    public ResponseEntity<Produto> alterarProduto(@PathVariable("id") Long id, Produto produto){
         produtoRepository.atualizar(produto, id);
-        return "crud";
+        return ResponseEntity.ok(produto);
     }
 
-    @PostMapping("/cadastrar")
-    public String cadastrar(Produto produto){
+    @PostMapping("/produto")
+    public ResponseEntity<Produto> cadastrar(@RequestBody Produto produto){
 
         produtoRepository.adicionar(produto);
 
-        return "crud";
+        return ResponseEntity.ok(produto);
     }
 }
