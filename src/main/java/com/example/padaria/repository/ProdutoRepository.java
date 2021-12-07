@@ -89,9 +89,14 @@ public class ProdutoRepository {
             PreparedStatement stmt = connection.prepareStatement(sql);
             ResultSet rs = stmt.executeQuery();
 
+
             while(rs.next()) {
                 Produto p = new Produto();
-
+                p.setId(rs.getInt("id"));
+                p.setNome(rs.getString("nome"));
+                p.setPreco(rs.getBigDecimal("preco"));
+                p.setData(rs.getDate("dataInclusao"));
+                p.setDescricao(rs.getString("descricao"));
                 lista.add(p);
             }
         }catch (SQLException e) {
@@ -100,6 +105,4 @@ public class ProdutoRepository {
 
         return lista;
     }
-
-
 }

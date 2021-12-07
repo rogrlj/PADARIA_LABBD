@@ -9,11 +9,20 @@ import java.util.Date;
 
 public class Produto {
 
+    private Integer id;
     private String nome;
     private BigDecimal preco;
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date data;
     private String descricao;
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
     public String getNome() {
         return nome;
