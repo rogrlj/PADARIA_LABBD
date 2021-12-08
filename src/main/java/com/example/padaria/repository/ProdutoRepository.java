@@ -1,11 +1,9 @@
 package com.example.padaria.repository;
 
 import com.example.padaria.model.Produto;
+import com.example.padaria.model.ProdutoDTO;
 
 import java.sql.*;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -50,7 +48,7 @@ public class ProdutoRepository {
 
     public void atualizar(Produto produto, Long id) {
         try {
-            String sql = "UPDATE produto SET nome = ?, preco = ?, dataInclusao = ?, descricao = ? WHERE id = ?";
+            String sql = "UPDATE produtos SET nome = ?, preco = ?, dataInclusao = ?, descricao = ? WHERE id = ?";
             PreparedStatement stmt = connection.prepareStatement(sql);
             stmt.setString(1, produto.getNome());
             stmt.setBigDecimal(2, produto.getPreco());
@@ -67,10 +65,11 @@ public class ProdutoRepository {
     public Produto buscarProduto(Long id){
         Produto produto = new Produto();
         try {
-            String sql = "SELECT * FROM produtos WHERE id = ?";
+            String sql = "SELECT nome, preco, dataInclusao, descricao FROM produtos WHERE id = ?";
             PreparedStatement stmt = connection.prepareStatement(sql);
             stmt.setLong(1, id);
             ResultSet rs = stmt.executeQuery();
+
             produto.setNome(rs.getString("nome"));
             produto.setPreco(rs.getBigDecimal("preco"));
             produto.setData(rs.getDate("dataInclusao"));
@@ -85,7 +84,7 @@ public class ProdutoRepository {
     public List<Produto> listarProdutos() {
         List<Produto> lista = new ArrayList<>();
         try {
-            String sql = "SELECT * FROM produtos";
+            String sql = "SELECT id, nome, preco, dataInclusao, descricao FROM produtos";
             PreparedStatement stmt = connection.prepareStatement(sql);
             ResultSet rs = stmt.executeQuery();
 
@@ -97,6 +96,28 @@ public class ProdutoRepository {
                 p.setPreco(rs.getBigDecimal("preco"));
                 p.setData(rs.getDate("dataInclusao"));
                 p.setDescricao(rs.getString("descricao"));
+                lista.add(p);
+            }
+        }catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return lista;
+    }
+
+    public List<ProdutoDTO> gerarRelatorio(Date data) {
+        List<ProdutoDTO> lista = new ArrayList<>();
+        try {
+            String sql = "CALL Relatorio_Produto(?);";
+            PreparedStatement stmt = connection.prepareStatement(sql);
+            stmt.setDate(1, data);
+            ResultSet rs = stmt.executeQuery();
+
+
+            while(rs.next()) {
+                ProdutoDTO p = new ProdutoDTO();
+                p.setNome(rs.getString("nome"));
+                p.setPreco(rs.getBigDecimal("preco"));
                 lista.add(p);
             }
         }catch (SQLException e) {

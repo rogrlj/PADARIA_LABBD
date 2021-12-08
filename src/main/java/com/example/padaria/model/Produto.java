@@ -1,10 +1,9 @@
 package com.example.padaria.model;
 
 
-import org.springframework.format.annotation.DateTimeFormat;
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
 import java.util.Date;
 
 public class Produto {
@@ -12,7 +11,7 @@ public class Produto {
     private Integer id;
     private String nome;
     private BigDecimal preco;
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", locale = "pt-BR", timezone = "Brazil/East")
     private Date data;
     private String descricao;
 

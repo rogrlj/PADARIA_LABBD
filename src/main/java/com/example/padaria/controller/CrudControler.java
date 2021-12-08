@@ -1,14 +1,13 @@
 package com.example.padaria.controller;
 
 import com.example.padaria.model.Produto;
+import com.example.padaria.model.ProdutoDTO;
 import com.example.padaria.repository.ProdutoRepository;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.util.UriComponentsBuilder;
 
-import java.net.URI;
+import java.sql.Date;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -46,7 +45,7 @@ public class CrudControler {
     }
 
     @PutMapping("/produto/{id}")
-    public ResponseEntity<Produto> alterarProduto(@PathVariable("id") Long id, Produto produto){
+    public ResponseEntity<Produto> alterarProduto(@PathVariable("id") Long id, @RequestBody Produto produto){
         produtoRepository.atualizar(produto, id);
         return ResponseEntity.ok(produto);
     }
@@ -57,5 +56,12 @@ public class CrudControler {
         produtoRepository.adicionar(produto);
 
         return ResponseEntity.ok(produto);
+    }
+
+    @GetMapping("/produtos/relatorio")
+    public ResponseEntity<List<ProdutoDTO>> gerarRelatorioProdutos(@RequestParam Date dataRelatorio) {
+        List<ProdutoDTO> produtos = produtoRepository.gerarRelatorio(dataRelatorio);
+
+        return ResponseEntity.ok(produtos);
     }
 }
